@@ -7,20 +7,16 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>Weather Dashboard</h1>
-  </header>
-  <main>
-    <section>
-      <form id="search-form">
-        <input type="text" id="city-input" placeholder="Enter a city">
-        <button type="submit">Search</button>
-      </form>
-    </section>
-    <section id="current-weather"></section>
-    <section id="forecast"></section>
-    <section id="search-history"></section>
-  </main>
+    <form id="search-form">
+      <input type="text" id="city-input" placeholder="Enter a city">
+      <button type="submit">Search</button>
+    </form>
+    <div id="current-weather"></div>
+    <div id="forecast"></div>
+    <div id="search-history"></div>
+  </div>
   <script src="assets/script.js"></script>
 </body>
 </html>

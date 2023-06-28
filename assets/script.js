@@ -1,4 +1,4 @@
-const apiKey = '8a04c5f98c13fbd952e390c6e5b010b2'; 
+const apiKey = '8a04c5f98c13fbd952e390c6e5b010b2';
 
 const searchForm = document.getElementById('search-form');
 const cityInput = document.getElementById('city-input');
@@ -6,12 +6,20 @@ const currentWeatherContainer = document.getElementById('current-weather');
 const forecastContainer = document.getElementById('forecast');
 const searchHistoryContainer = document.getElementById('search-history');
 
-searchForm.addEventListener('submit', function (event) {
+searchForm.addEventListener('submit', function(event) {
   event.preventDefault();
   const city = cityInput.value.trim();
   if (city !== '') {
     searchWeather(city);
     cityInput.value = '';
+    saveToLocalStorage(city);
+  }
+});
+
+searchHistoryContainer.addEventListener('click', function(event) {
+  if (event.target.tagName === 'BUTTON') {
+    const city = event.target.textContent;
+    searchWeather(city);
   }
 });
 
@@ -85,7 +93,7 @@ function displayForecast(data) {
 
 function addSearchHistory(city) {
   const searchHistoryHtml = `
-    <button onclick="searchWeather('${city}')">${city}</button>
+    <button>${city}</button>
   `;
 
   searchHistoryContainer.innerHTML += searchHistoryHtml;
@@ -105,3 +113,23 @@ function formatDate(timestamp) {
   const options = { weekday: 'long', month: 'long', day: 'numeric' };
   return date.toLocaleDateString(undefined, options);
 }
+
+function saveToLocalStorage(city) {
+  let searchHistory = localStorage.getItem('searchHistory');
+  searchHistory = searchHistory ? JSON.parse(searchHistory) : [];
+  searchHistory.push(city);
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+}
+
+// Load data from local storage on page load
+function loadFromLocalStorage() {
+  const searchHistory = localStorage.getItem('searchHistory');
+  if (searchHistory) {
+    const cities = JSON.parse(searchHistory);
+    cities.forEach(city => {
+      addSearchHistory(city);
+    });
+  }
+}
+
+loadFromLocalStorage();
